@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://dphwrppvn7ej2"]
+
+[ext_resource type="Texture2D" uid="uid://dl3b3nsdn2mon" path="res://icon.svg" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://bu6f3lifw0w5b" path="res://glue_1.gd" id="2_0e48y"]
+
+[sub_resource type="GDScript" id="GDScript_epypp"]
+script/source = "extends Label
+
+func _process(delta: float) -> void:
+	text = \"%d\\n%d\" % [get_parent().global_position.x, get_parent().global_position.y]
+"
+
+[sub_resource type="GDScript" id="GDScript_0hol4"]
+script/source = "extends Label
+
+func _process(delta: float) -> void:
+	text = \"%d\\n%d\" % [get_parent().global_position.x, get_parent().global_position.y]
+"
+
+[sub_resource type="GDScript" id="GDScript_0e48y"]
+script/source = "extends Node2D
+
+@onready var ic1: Node2D = $\"../Icon\"
+@onready var ic2: Node2D = $\"../Icon2\"
+
+func _process(delta: float) -> void:
+	
+	queue_redraw()
+	pass
+	
+func _draw() -> void:
+	draw_arc(
+		ic1.global_position, 
+		ic1.global_position.distance_to(ic2.global_position),
+		0,
+		TAU,
+		20,
+		Color.AQUA,
+		2,
+		true,
+	)
+	draw_line(
+		ic1.global_position,
+		ic2.global_position,
+		Color.RED,
+		2,
+		true,
+	)
+	draw_arc(
+		ic2.global_position, 
+		ic2.global_position.distance_to(ic1.global_position),
+		0,
+		TAU,
+		20,
+		Color.AQUA,
+		2,
+		true,
+	)
+	pass
+"
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(477, 81)
+texture = ExtResource("1_wtcfe")
+
+[node name="Label" type="Label" parent="Icon"]
+offset_left = -20.0
+offset_top = 78.0
+offset_right = 20.0
+offset_bottom = 101.0
+script = SubResource("GDScript_epypp")
+
+[node name="Icon2" type="Sprite2D" parent="."]
+position = Vector2(593, 68)
+texture = ExtResource("1_wtcfe")
+
+[node name="Label" type="Label" parent="Icon2"]
+offset_left = -19.0
+offset_top = -114.0
+offset_right = 21.0
+offset_bottom = -91.0
+script = SubResource("GDScript_0hol4")
+
+[node name="Node2D" type="Node2D" parent="."]
+script = SubResource("GDScript_0e48y")
+
+[node name="Glue1" type="Node2D" parent="."]
+script = ExtResource("2_0e48y")
+
+[node name="Icon3" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(475, 80)
+texture = ExtResource("1_wtcfe")
